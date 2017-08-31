@@ -17,7 +17,7 @@ var gulp = require('gulp'),
   watch = require('gulp-watch');
 
 var srcDir = './src/';
-var outDir = './';
+var outDir = './out';
 
 var header = "/*!\n\
  * chartjs-plugin-annotation.js\n\
@@ -77,7 +77,7 @@ function bumpTask(complete) {
 
     // Write these to their own files, then build the output
     fs.writeFileSync('package.json', JSON.stringify(package, null, 2));
-    
+
     complete();
   });
 }
