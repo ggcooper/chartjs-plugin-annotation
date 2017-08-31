@@ -1,4 +1,4 @@
-# chartjs-plugin-annotation.js
+# chartjs-plugin-annotation.j [![Build Status](https://travis-ci.org/gradygcooper/chartjs-plugin-annotation.svg?branch=master)](https://travis-ci.org/gradygcooper/chartjs-plugin-annotation)
 
 An annotation plugin for Chart.js >= 2.4.0
 
@@ -30,7 +30,7 @@ To configure the annotations plugin, you can simply add new config options to yo
 		// See https://developer.mozilla.org/en-US/docs/Web/Events
 		events: ['click'],
 
-		// Double-click speed in ms used to distinguish single-clicks from 
+		// Double-click speed in ms used to distinguish single-clicks from
 		// double-clicks whenever you need to capture both. When listening for
 		// both click and dblclick, click events will be delayed by this
 		// amount.
