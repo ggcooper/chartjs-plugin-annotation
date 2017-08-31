@@ -1,8 +1,11 @@
-# chartjs-plugin-annotation.j [![Build Status](https://travis-ci.org/gradygcooper/chartjs-plugin-annotation.svg?branch=master)](https://travis-ci.org/gradygcooper/chartjs-plugin-annotation)
+# chartjs-plugin-annotation.js FORK [![Build Status](https://travis-ci.org/gradygcooper/chartjs-plugin-annotation.svg?branch=master)](https://travis-ci.org/gradygcooper/chartjs-plugin-annotation)
 
-An annotation plugin for Chart.js >= 2.4.0
+Forked from: An annotation plugin for Chart.js >= 2.4.0
 
-This plugin draws lines and boxes on the chart area.
+```diff
+- This plugin draws lines and boxes on the chart area. And, is enhanced with the ability to add a label
+- to the box and round the box annotations corners. Documentation updated below.
+```
 
 Annotations work with line, bar, scatter and bubble charts that use linear, logarithmic, time, or category scales. Annotations will not work on any chart that does not have exactly two axes, including pie, radar, and polar area charts.
 
@@ -201,6 +204,54 @@ The 4 coordinates, xMin, xMax, yMin, yMax are optional. If not specified, the bo
 
 	// Fill color
 	backgroundColor: 'green',
+
+	// Radius of label rectangle, default below
+	cornerRadius: 6,
+
+	//
+	// Label for Box - deaults to center justified w/ horizontal text.
+	//
+	label: {
+		// Font family of text, inherits from global
+		fontFamily: "sans-serif",
+
+		// Font size of text, inherits from global
+		fontSize: 12,
+
+		// Font style of text, default below
+		fontStyle: "bold",
+
+		// Font color of text, default below
+		fontColor: "#fff",
+
+		// Padding of label to add left/right, default below
+		xPadding: 6,
+
+		// Padding of label to add top/bottom, default below
+		yPadding: 6,
+
+		// Anchor position of label on line, can be one of: center [future support: top, bottom, left, right,]. Default below.
+		justification: "center",
+
+		// Anchor position of label on line, can be one of: horizonal [future support: vertical]. Default below.
+		direction: "horizonal",
+
+		// Adjustment along x-axis (left-right) of label relative to above number (can be negative)
+		// For horizontal lines positioned left or right, negative values move
+		// the label toward the edge, and negative values toward the center.
+		xAdjust: 0,
+
+		// Adjustment along y-axis (top-bottom) of label relative to above number (can be negative)
+		// For vertical lines positioned top or bottom, negative values move
+		// the label toward the edge, and negative values toward the center.
+		yAdjust: 0,
+
+		// Whether the label is enabled and should be displayed
+		enabled: false,
+
+		// Text to display in label - default is null
+		content: "Test label"
+	},
 
 	// Mouse event handlers - be sure to enable the corresponding events in the
 	// annotation events array or the event handler will not be called.

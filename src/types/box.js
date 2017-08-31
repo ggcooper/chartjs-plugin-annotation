@@ -1,7 +1,8 @@
 // Box Annotation implementation
 module.exports = function(Chart) {
+	var chartHelpers = Chart.helpers;
 	var helpers = require('../helpers.js')(Chart);
-	
+
 	var BoxAnnotation = Chart.Annotation.Element.extend({
 		setDataLimits: function() {
 			var model = this._model;
@@ -14,10 +15,10 @@ module.exports = function(Chart) {
 
 			// Set the data range for this annotation
 			model.ranges = {};
-			
+
 			var min = 0;
 			var max = 0;
-			
+
 			if (xScale) {
 				min = helpers.isValid(options.xMin) ? options.xMin : xScale.getPixelForValue(chartArea.left);
 				max = helpers.isValid(options.xMax) ? options.xMax : xScale.getPixelForValue(chartArea.right);
@@ -42,6 +43,7 @@ module.exports = function(Chart) {
 			var model = this._model;
 			var options = this.options;
 			var chartInstance = this.chartInstance;
+			var ctx = chartInstance.chart.ctx;
 
 			var xScale = chartInstance.scales[options.xScaleID];
 			var yScale = chartInstance.scales[options.yScaleID];
@@ -55,9 +57,9 @@ module.exports = function(Chart) {
 				y2: chartArea.bottom
 			};
 
-			var left = chartArea.left, 
-				top = chartArea.top, 
-				right = chartArea.right, 
+			var left = chartArea.left,
+				top = chartArea.top,
+				right = chartArea.right,
 				bottom = chartArea.bottom;
 
 			var min, max;
@@ -81,6 +83,29 @@ module.exports = function(Chart) {
 			model.top = top;
 			model.right = right;
 			model.bottom = bottom;
+			model.cornerRadius = options.cornerRadius;
+
+			// Figure out the label:
+			model.labelFontFamily = options.label.fontFamily;
+			model.labelFontSize = options.label.fontSize;
+			model.labelFontStyle = options.label.fontStyle;
+			model.labelFontColor = options.label.fontColor;
+			model.labelXPadding = options.label.xPadding;
+			model.labelYPadding = options.label.yPadding;
+			model.labelPosition = options.label.position;
+			model.labelXAdjust = options.label.xAdjust;
+			model.labelYAdjust = options.label.yAdjust;
+			model.labelEnabled = options.label.enabled;
+			model.labelContent = options.label.content;
+
+			ctx.font = chartHelpers.fontString(model.labelFontSize, model.labelFontStyle, model.labelFontFamily);
+			var textWidth = ctx.measureText(model.labelContent).width;
+			var textHeight = ctx.measureText('M').width;
+			var labelPosition = calculateLabelPosition(model, textWidth, textHeight, model.labelXPadding, model.labelYPadding);
+			model.labelX = labelPosition.x - model.labelXPadding;
+			model.labelY = labelPosition.y - model.labelYPadding;
+			model.labelWidth = textWidth + (2 * model.labelXPadding);
+			model.labelHeight = textHeight + (2 * model.labelYPadding);
 
 			// Stylistic options
 			model.borderColor = options.borderColor;
@@ -90,9 +115,9 @@ module.exports = function(Chart) {
 		inRange: function(mouseX, mouseY) {
 			var model = this._model;
 			return model &&
-				mouseX >= model.left && 
-				mouseX <= model.right && 
-				mouseY >= model.top && 
+				mouseX >= model.left &&
+				mouseX <= model.right &&
+				mouseY >= model.top &&
 				mouseY <= model.bottom;
 		},
 		getCenterPoint: function() {
@@ -131,12 +156,54 @@ module.exports = function(Chart) {
 			// Draw
 			var width = view.right - view.left,
 				height = view.bottom - view.top;
-			ctx.fillRect(view.left, view.top, width, height);
-			ctx.strokeRect(view.left, view.top, width, height);
+			chartHelpers.drawRoundedRectangle(
+				ctx,
+				view.left, // x
+				view.top, // y
+				width, // width
+				height, // height
+				view.cornerRadius // radius
+			);
+			ctx.fill();
+
+			if (view.labelEnabled && view.labelContent) {
+				ctx.beginPath();
+				ctx.rect(view.clip.x1, view.clip.y1, view.clip.x2 - view.clip.x1, view.clip.y2 - view.clip.y1);
+				ctx.clip();
+
+				// Draw the text
+				ctx.font = chartHelpers.fontString(
+					view.labelFontSize,
+					view.labelFontStyle,
+					view.labelFontFamily
+				);
+
+				ctx.fillStyle = view.labelFontColor;
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'middle';
+				ctx.fillText(
+					view.labelContent,
+					view.labelX + (view.labelWidth / 2),
+					view.labelY + (view.labelHeight / 2)
+				);
+			}
 
 			ctx.restore();
 		}
+
+
 	});
+
+	function calculateLabelPosition(view, width, height, padWidth) {
+		var ret = {}, xa = 0, ya = 0;
+
+		// center justify + horizontal direction -> see line.js for future options impl
+		xa = -(width/2) + padWidth + view.labelXAdjust;
+		ya = -(height / 2) + view.labelYAdjust;
+		ret.x = (view.left + view.right) / 2 + xa;
+		ret.y = (view.top + view.bottom) / 2 + ya;
+		return ret;
+	}
 
 	return BoxAnnotation;
 };

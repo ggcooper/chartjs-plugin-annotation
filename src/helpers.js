@@ -92,8 +92,11 @@ module.exports = function(Chart) {
 	function initConfig(config) {
 		config = chartHelpers.configMerge(Chart.Annotation.defaults, config);
 		if (chartHelpers.isArray(config.annotations)) {
-			config.annotations.forEach(function(annotation) {
+			config.annotations.forEach(function(annotation, index, annotations) {
 				annotation.label = chartHelpers.configMerge(Chart.Annotation.labelDefaults, annotation.label);
+				if(annotation.type == 'box') {
+					annotations[index] = chartHelpers.configMerge(Chart.Annotation.boxDefaults, annotation);
+				}
 			});
 		}
 		return config;
@@ -182,4 +185,3 @@ module.exports = function(Chart) {
 		createMouseEvent: createMouseEvent
 	};
 };
-

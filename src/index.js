@@ -18,6 +18,10 @@ Chart.Annotation.defaults = {
 	annotations: []
 };
 
+Chart.Annotation.boxDefaults = {
+	cornerRadius: 6
+}
+
 Chart.Annotation.labelDefaults = {
 	backgroundColor: 'rgba(0,0,0,0.8)',
 	fontFamily: Chart.defaults.global.defaultFontFamily,
