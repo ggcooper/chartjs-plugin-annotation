@@ -1,4 +1,6 @@
 language: javascript
+addons:
+  artifacts: true
 env:
   global:
   - secure: NEATY0TCuEqYRZWbfro8aiF2TdQKFU9TY8/Jg3/NL+3dXLY5bQ+B2GC9EqdF71rQMsuuIOhItCtecKGBzq/oFAYsMZOfZ9j+xk6su/XHJuxD5qUX9MOvbA0V9kZTLadGUifDrXWFErlyGP6oKKwg30zW7NSgdEuDAUrvXCi6FQHJQk+gazwLkQa7ozeMZdYYFq6HI/BBbDrUzSHBWcN3jYW6QEV+SR9XCA/7y9mxTYwIKQsjfRklilJVp0pr4wRT471BZpsh/5iA1J+pzXXfq8J+AqThfnaiszt4jFPAA3WOytXoUdZzSoWK5o3dy8Li/jLvMEKeWh2tH5x2Qz3JUErt2+GVOyGbSK/4U3XmW7KEKYnVmoYTpOyX7l18yPNnQjI6Wr7JQUESRVqm8QD6x85GSfH/6AXsTF5bNrAnXUF4Y3gsF1MXPhZW9Nw4BGKbxrmooxpz4vhZ2o1tHiEgQPYouezuc3Kl5rxk/E7rLyFcl8xkJgoAOoGZBgPAJi1vg7SgyWJTzZzOpzgaJOEqJDoBJ2pVwJb5EFjM5JoNZ46j2Q+5zVbX0n79/LVsUgri03KEnkIJknC+xAxqfQB+gpwXYQ8kURBYqETmn3EoqGRb0q3fOEzUxsKOJPRx1IIMowoDscGuQFkyFz9/CwnNztqFipdpJdVrjP/iqO8jHHw=
@@ -12,5 +14,6 @@ deploy:
   provider: s3
   access_key_id: $KEY
   secret_access_key: $SECRET
+  file: "*.js"
   bucket: "chartjs-annotations-fork.671grains.com"
   skip_cleanup: true
