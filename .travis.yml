@@ -1,6 +1,6 @@
 language: javascript
 install:
   - npm install
-  - npm install gulp
+  - npm install -g gulp-cli
 script:
   - gulp jshint build
