@@ -20,7 +20,7 @@ Chart.Annotation.defaults = {
 
 Chart.Annotation.boxDefaults = {
 	cornerRadius: 6
-}
+};
 
 Chart.Annotation.labelDefaults = {
 	backgroundColor: 'rgba(0,0,0,0.8)',
