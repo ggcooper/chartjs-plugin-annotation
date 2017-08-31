@@ -164,6 +164,7 @@ module.exports = function(Chart) {
 				height, // height
 				view.cornerRadius // radius
 			);
+			ctx.stroke();
 			ctx.fill();
 
 			if (view.labelEnabled && view.labelContent) {
