@@ -8,3 +8,9 @@ install:
 - npm install -g gulp-cli
 script:
 - gulp jshint build
+deploy:
+  provider: s3
+  access_key_id: $KEY
+  secret_access_key: $SECRET
+  bucket: "chartjs-annotations-fork.671grains.com"
+  skip_cleanup: true
