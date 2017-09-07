@@ -91,7 +91,7 @@ module.exports = function(Chart) {
 		},
 		inRange: function(mouseX, mouseY) {
 			var model = this._model;
-			
+
 			return (
 				// On the line
 				model.line &&
@@ -100,9 +100,9 @@ module.exports = function(Chart) {
 				// On the label
 				model.labelEnabled &&
 				model.labelContent &&
-				mouseX >= model.labelX && 
-				mouseX <= model.labelX + model.labelWidth && 
-				mouseY >= model.labelY && 
+				mouseX >= model.labelX &&
+				mouseX <= model.labelX + model.labelWidth &&
+				mouseY >= model.labelY &&
 				mouseY <= model.labelY + model.labelHeight
 			);
 		},
@@ -146,7 +146,7 @@ module.exports = function(Chart) {
 
 			// Draw
 			ctx.beginPath();
-			ctx.moveTo(view.x1, view.y1);
+			ctx.moveTo(view.x1, view.labelY);
 			ctx.lineTo(view.x2, view.y2);
 			ctx.stroke();
 
